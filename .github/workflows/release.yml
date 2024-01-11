@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: kenji-miyake/setup-git-cliff@v2
       - run: |
-          VERSION=$(deno run -A dev/lock.ts --version)
+          VERSION=${{ github.ref_name }}
           echo "Releasing v$VERSION"
           git cliff --latest --strip header --output CHANGE.md
           cat CHANGE.md
