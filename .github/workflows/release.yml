@@ -10,8 +10,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: cargo-bins/cargo-binstall@v1.5.0
-      - run: cargo binstall git-cliff -y
+      - uses: kenji-miyake/setup-git-cliff@v2
       - run: |
           VERSION=${{ github.ref_name }}
           echo "Releasing v$VERSION"
