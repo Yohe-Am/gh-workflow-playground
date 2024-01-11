@@ -10,11 +10,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: kenji-miyake/setup-git-cliff@v2
       - run: |
           VERSION=${{ github.ref_name }}
           echo "Releasing $VERSION"
-          git cliff --output CHANGE.md
+          git cliff --latest --strip header --output CHANGE.md
           cat CHANGE.md
       - uses: ncipollo/release-action@v1
         with:
