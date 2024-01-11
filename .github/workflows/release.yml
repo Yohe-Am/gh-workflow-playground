@@ -1,0 +1,26 @@
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  check-bump:
+    runs-on: ubuntu-latest
+    if: github.ref_type == 'tag'
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: kenji-miyake/setup-git-cliff@v2
+      - run: |
+          VERSION=$(deno run -A dev/lock.ts --version)
+          echo "Releasing v$VERSION"
+          git cliff --latest --strip header --output CHANGE.md
+          cat CHANGE.md
+      - uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ github.ref_name }}
+          makeLatest: true
+          bodyFile: "CHANGE.md"
+          discussionCategory: "Announcements"
+          prerelease: ${{ contains(github.ref_name, 'dev') || contains(github.ref_name, 'alpha') }}
+
