@@ -13,8 +13,8 @@ jobs:
       - uses: kenji-miyake/setup-git-cliff@v2
       - run: |
           VERSION=${{ github.ref_name }}
-          echo "Releasing v$VERSION"
-          git cliff --latest --strip header --output CHANGE.md
+          echo "Releasing $VERSION"
+          git cliff --output CHANGE.md
           cat CHANGE.md
       - uses: ncipollo/release-action@v1
         with:
